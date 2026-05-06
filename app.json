@@ -2,13 +2,13 @@
   "name": "PS Downloader",
   "description": "Fast, free multi-platform video & audio downloader.",
   "buildpacks": [
-    { "url": "heroku/nodejs" },
-    { "url": "heroku/python" }
+    { "url": "heroku/nodejs" }
   ],
   "env": {
-    "NODE_ENV": { "value": "production" },
-    "RATE_LIMIT_MAX_REQUESTS": { "value": "30" },
-    "RATE_LIMIT_WINDOW_MS": { "value": "60000" }
+    "NODE_ENV":                  { "value": "production" },
+    "NPM_CONFIG_PRODUCTION":     { "value": "false" },
+    "RATE_LIMIT_MAX_REQUESTS":   { "value": "30" },
+    "RATE_LIMIT_WINDOW_MS":      { "value": "60000" }
   },
   "formation": {
     "web": { "quantity": 1, "size": "eco" }

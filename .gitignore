@@ -4,5 +4,3 @@ node_modules/
 .DS_Store
 downloads/
 tmp/
-bin/yt-dlp
-bin/yt-dlp.exe

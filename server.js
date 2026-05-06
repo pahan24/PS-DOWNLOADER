@@ -1,10 +1,11 @@
+'use strict';
 require('dotenv').config();
 
-const express    = require('express');
-const helmet     = require('helmet');
-const cors       = require('cors');
-const rateLimit  = require('express-rate-limit');
-const path       = require('path');
+const express   = require('express');
+const helmet    = require('helmet');
+const cors      = require('cors');
+const rateLimit = require('express-rate-limit');
+const path      = require('path');
 
 const app     = express();
 const PORT    = process.env.PORT || 3000;
@@ -38,7 +39,7 @@ app.use('/api', rateLimit({
   max:      parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 30,
   standardHeaders: true,
   legacyHeaders:   false,
-  message: { error: 'Too many requests. Please wait.' },
+  message: { error: 'Too many requests. Please wait a moment.' },
   skip: (req) => req.path === '/status'
 }));
 
@@ -49,30 +50,33 @@ app.use((req, _res, next) => {
   next();
 });
 
+// Static files
 app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: IS_PROD ? '1d' : 0
 }));
 
-// Load API routes — wrapped so startup never crashes
-try {
-  const apiRoutes = require('./routes/api');
-  app.use('/api', apiRoutes);
-} catch (e) {
-  console.error('[startup] routes/api.js load error:', e.message);
-  app.use('/api', (_req, res) => res.status(503).json({ error: 'API initializing' }));
-}
+// API routes
+const apiRoutes = require('./routes/api');
+app.use('/api', apiRoutes);
 
+// SPA fallback
 app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Error handler
 app.use((err, _req, res, _next) => {
   console.error('[ERROR]', err.message);
   res.status(500).json({ error: IS_PROD ? 'Server error' : err.message });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`\n  🚀 PS Downloader  PORT=${PORT}  ENV=${process.env.NODE_ENV || 'dev'}\n`);
+  console.log('');
+  console.log('  🔴 PS DOWNLOADER');
+  console.log('  PORT:', PORT);
+  console.log('  ENV: ', process.env.NODE_ENV || 'development');
+  console.log('  API:  http://localhost:' + PORT + '/api/status');
+  console.log('');
 });
 
 module.exports = app;
