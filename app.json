@@ -1,41 +1,16 @@
 {
   "name": "PS Downloader",
-  "description": "Fast, free multi-platform video & audio downloader. Supports YouTube, TikTok, Instagram, Facebook & 1000+ sites.",
-  "keywords": ["downloader", "youtube", "tiktok", "instagram", "media", "nodejs"],
-  "website": "https://github.com/yourusername/ps-downloader",
-  "repository": "https://github.com/yourusername/ps-downloader",
-  "logo": "https://i.imgur.com/placeholder.png",
-  "success_url": "/",
+  "description": "Fast, free multi-platform video & audio downloader.",
   "buildpacks": [
     { "url": "heroku/nodejs" },
     { "url": "heroku/python" }
   ],
   "env": {
-    "NODE_ENV": {
-      "description": "Application environment",
-      "value": "production"
-    },
-    "RATE_LIMIT_MAX_REQUESTS": {
-      "description": "Maximum API requests per minute per IP",
-      "value": "30"
-    },
-    "RATE_LIMIT_WINDOW_MS": {
-      "description": "Rate limit window in milliseconds",
-      "value": "60000"
-    },
-    "ALLOWED_ORIGIN": {
-      "description": "Allowed CORS origin (your app URL, optional)",
-      "required": false
-    }
+    "NODE_ENV": { "value": "production" },
+    "RATE_LIMIT_MAX_REQUESTS": { "value": "30" },
+    "RATE_LIMIT_WINDOW_MS": { "value": "60000" }
   },
   "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "eco"
-    }
-  },
-  "addons": [],
-  "scripts": {
-    "postdeploy": "echo 'PS Downloader deployed successfully!'"
+    "web": { "quantity": 1, "size": "eco" }
   }
 }

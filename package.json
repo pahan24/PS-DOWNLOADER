@@ -4,7 +4,8 @@
   "description": "PS Downloader - Multi-platform video/audio downloader",
   "main": "server.js",
   "engines": {
-    "node": ">=18.0.0"
+    "node": "20.x",
+    "npm": "10.x"
   },
   "scripts": {
     "start": "node server.js",
@@ -18,8 +19,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "uuid": "^9.0.0",
-    "node-fetch": "^3.3.2",
-    "youtubei.js": "^9.1.0"
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
