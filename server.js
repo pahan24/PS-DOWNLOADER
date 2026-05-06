@@ -39,7 +39,7 @@ app.use('/api', rateLimit({
   max:      parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 30,
   standardHeaders: true,
   legacyHeaders:   false,
-  message: { error: 'Too many requests. Please wait a moment.' },
+  message: { error: 'Too many requests. Please wait.' },
   skip: (req) => req.path === '/status'
 }));
 
@@ -50,33 +50,24 @@ app.use((req, _res, next) => {
   next();
 });
 
-// Static files
 app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: IS_PROD ? '1d' : 0
 }));
 
-// API routes
 const apiRoutes = require('./routes/api');
 app.use('/api', apiRoutes);
 
-// SPA fallback
 app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Error handler
 app.use((err, _req, res, _next) => {
   console.error('[ERROR]', err.message);
   res.status(500).json({ error: IS_PROD ? 'Server error' : err.message });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log('');
-  console.log('  🔴 PS DOWNLOADER');
-  console.log('  PORT:', PORT);
-  console.log('  ENV: ', process.env.NODE_ENV || 'development');
-  console.log('  API:  http://localhost:' + PORT + '/api/status');
-  console.log('');
+  console.log('\n  🔴 PS DOWNLOADER  PORT=' + PORT + '\n');
 });
 
 module.exports = app;
