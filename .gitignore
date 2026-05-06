@@ -1,0 +1,8 @@
+node_modules/
+.env
+*.log
+.DS_Store
+downloads/
+tmp/
+bin/yt-dlp
+bin/yt-dlp.exe

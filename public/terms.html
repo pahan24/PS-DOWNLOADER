@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — PS DOWNLOADER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Exo+2:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--red:#ff0000;--red-glow:rgba(255,0,0,0.3);--red-subtle:rgba(255,0,0,0.07);--border:rgba(255,0,0,0.13);--bg:#060606;--bg2:#0d0d0d;--white:#fff;--gray:#888;--gray2:#3a3a3a}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Exo 2',sans-serif;overflow-x:hidden;line-height:1.7}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(255,0,0,0.4);border-radius:10px}
+nav{position:sticky;top:0;z-index:100;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(4,4,4,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:36px;height:36px;background:#090909;border-radius:9px;border:1.5px solid var(--red);display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px var(--red-glow)}
+.logo-icon svg{filter:drop-shadow(0 0 3px var(--red))}
+.logo-text{font-family:'Rajdhani',sans-serif;font-size:1.25rem;font-weight:700;letter-spacing:2px}
+.logo-text span{color:var(--red)}
+.back-btn{display:inline-flex;align-items:center;gap:7px;color:var(--gray);text-decoration:none;font-size:.82rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color .2s;border:1px solid var(--gray2);padding:6px 14px;border-radius:6px}
+.back-btn:hover{color:var(--red);border-color:var(--red)}
+.page-hero{padding:64px 24px 48px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,0.04)}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(255,0,0,0.06),transparent 70%)}
+.page-tag{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);background:var(--red-subtle);border:1px solid var(--border);padding:4px 14px;border-radius:100px;margin-bottom:18px}
+.page-title{font-family:'Rajdhani',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;letter-spacing:-.5px;margin-bottom:10px}
+.page-date{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--gray);letter-spacing:1px}
+.page-div{width:40px;height:3px;background:var(--red);margin:18px auto 0;box-shadow:0 0 10px var(--red)}
+.page-content{max-width:820px;margin:0 auto;padding:56px 24px 80px}
+.section-block{margin-bottom:44px}
+.section-block h2{font-family:'Rajdhani',sans-serif;font-size:1.35rem;font-weight:700;letter-spacing:.5px;margin-bottom:14px;color:var(--white);display:flex;align-items:center;gap:10px}
+.section-block h2::before{content:'';width:3px;height:22px;background:var(--red);border-radius:2px;box-shadow:0 0 8px var(--red);flex-shrink:0}
+.section-block p{font-size:.9rem;color:var(--gray);margin-bottom:12px;line-height:1.8}
+.section-block ul{list-style:none;margin:10px 0 12px}
+.section-block ul li{font-size:.88rem;color:var(--gray);padding:7px 0 7px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,0.03)}
+.section-block ul li::before{content:'›';position:absolute;left:0;color:var(--red);font-weight:700}
+.section-block ul li:last-child{border-bottom:none}
+.warn-box{background:rgba(255,150,0,0.05);border:1px solid rgba(255,150,0,0.2);border-radius:12px;padding:20px 24px;margin:16px 0;border-left:3px solid #ff9600}
+.warn-box p{color:#aaa;margin-bottom:0}
+.highlight-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin:16px 0;border-left:3px solid var(--red)}
+.highlight-box p{margin-bottom:0;color:#aaa}
+.contact-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;margin-top:40px}
+.contact-card h3{font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:8px}
+.contact-card p{font-size:.85rem;color:var(--gray);margin-bottom:0}
+.contact-card a{color:var(--red);text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:.85rem}
+.toc{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:40px}
+.toc h3{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.toc ol{list-style:decimal;padding-left:20px}
+.toc ol li{font-size:.85rem;color:var(--gray);margin-bottom:7px}
+.toc ol li a{color:var(--gray);text-decoration:none;transition:color .2s}
+.toc ol li a:hover{color:var(--red)}
+.page-footer{background:#040404;border-top:1px solid rgba(255,0,0,0.09);padding:24px;text-align:center}
+.page-footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:12px;flex-wrap:wrap}
+.page-footer-links a{font-size:.75rem;color:var(--gray2);text-decoration:none;transition:color .2s}
+.page-footer-links a:hover,.page-footer-links a.active{color:var(--red)}
+.page-footer-copy{font-size:.72rem;color:var(--gray2)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-icon">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <circle cx="9" cy="9" r="7" stroke="#ff0000" stroke-width="1.5" opacity="0.5"/>
+        <path d="M9 3v7M6 8l3 4 3-4" stroke="#ff0000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5 14h8" stroke="#ff0000" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="logo-text">PS <span>DOWN</span>LOADER</div>
+  </a>
+  <a href="/" class="back-btn">← Back to Home</a>
+</nav>
+
+<div class="page-hero">
+  <div class="page-tag">Legal Document</div>
+  <h1 class="page-title">Terms of Service</h1>
+  <div class="page-date">Last Updated: January 01, 2026 &nbsp;·&nbsp; Effective: January 01, 2026</div>
+  <div class="page-div"></div>
+</div>
+
+<div class="page-content">
+
+  <div class="highlight-box">
+    <p>📋 <strong style="color:#fff">By using PS Downloader, you agree to these Terms of Service.</strong> Please read them carefully. If you do not agree, you may not use the service.</p>
+  </div>
+
+  <div class="toc">
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><a href="#s1">Acceptance of Terms</a></li>
+      <li><a href="#s2">Description of Service</a></li>
+      <li><a href="#s3">Permitted Use</a></li>
+      <li><a href="#s4">Prohibited Use</a></li>
+      <li><a href="#s5">Intellectual Property & Copyright</a></li>
+      <li><a href="#s6">Disclaimer of Warranties</a></li>
+      <li><a href="#s7">Limitation of Liability</a></li>
+      <li><a href="#s8">Third-Party Platforms</a></li>
+      <li><a href="#s9">Availability & Modifications</a></li>
+      <li><a href="#s10">Governing Law</a></li>
+      <li><a href="#s11">Contact</a></li>
+    </ol>
+  </div>
+
+  <div class="section-block" id="s1">
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using PS Downloader ("the Service", "we", "us"), you confirm that you are at least 13 years of age and agree to be bound by these Terms of Service and our <a href="/privacy.html" style="color:var(--red)">Privacy Policy</a>. These terms apply to all visitors, users, and others who access or use the Service.</p>
+  </div>
+
+  <div class="section-block" id="s2">
+    <h2>2. Description of Service</h2>
+    <p>PS Downloader is a web-based tool that allows users to extract and download publicly accessible media content (video and audio) from supported platforms including YouTube, TikTok, Instagram, Facebook, Twitter/X, and others. The service is provided free of charge.</p>
+    <p>PS Downloader acts as an intermediary tool and does not host, store, or distribute any media content itself. All media is fetched directly from the originating platform and delivered to your device.</p>
+  </div>
+
+  <div class="section-block" id="s3">
+    <h2>3. Permitted Use</h2>
+    <p>You may use PS Downloader only for lawful purposes and in ways that comply with these Terms. Permitted uses include:</p>
+    <ul>
+      <li>Downloading content you have created yourself</li>
+      <li>Downloading content explicitly licensed for redistribution (Creative Commons, Public Domain, etc.)</li>
+      <li>Downloading content with explicit written permission from the copyright holder</li>
+      <li>Personal, non-commercial use where permitted by the originating platform's terms</li>
+      <li>Educational or research purposes under applicable fair use provisions</li>
+    </ul>
+  </div>
+
+  <div class="section-block" id="s4">
+    <h2>4. Prohibited Use</h2>
+    <div class="warn-box"><p>⚠️ <strong style="color:#ffa000">The following uses are strictly prohibited and may result in immediate termination of access.</strong></p></div>
+    <ul>
+      <li>Downloading copyrighted content without authorization from the rights holder</li>
+      <li>Using downloaded content for commercial purposes without proper licensing</li>
+      <li>Redistributing, re-uploading, or reselling downloaded media</li>
+      <li>Using the service to circumvent DRM (Digital Rights Management) protections</li>
+      <li>Automated scraping, botting, or mass downloading via scripts</li>
+      <li>Attempting to overload or disrupt the service infrastructure</li>
+      <li>Using the service to download content that violates any applicable laws</li>
+      <li>Downloading content depicting illegal activities, abuse, or exploitation</li>
+      <li>Reverse engineering or attempting to extract the service's source code via the API</li>
+    </ul>
+  </div>
+
+  <div class="section-block" id="s5">
+    <h2>5. Intellectual Property & Copyright</h2>
+    <p>PS Downloader respects intellectual property rights. All content on third-party platforms remains the property of its respective owners and is subject to those platforms' terms of service and applicable copyright law.</p>
+    <p>You are solely responsible for ensuring that your use of any downloaded content complies with:</p>
+    <ul>
+      <li>The copyright laws of your country and jurisdiction</li>
+      <li>The terms of service of the platform from which content is downloaded</li>
+      <li>Any licensing agreements associated with the content</li>
+      <li>Fair use / fair dealing provisions where applicable</li>
+    </ul>
+    <p>PS Downloader and its branding, design, and source code are protected intellectual property of PS Downloader. Unauthorized reproduction is prohibited.</p>
+  </div>
+
+  <div class="section-block" id="s6">
+    <h2>6. Disclaimer of Warranties</h2>
+    <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMITTED BY LAW, PS DOWNLOADER DISCLAIMS ALL WARRANTIES INCLUDING:</p>
+    <ul>
+      <li>Warranties of merchantability or fitness for a particular purpose</li>
+      <li>Warranties that the service will be uninterrupted, error-free, or secure</li>
+      <li>Warranties regarding the accuracy, completeness, or reliability of content</li>
+      <li>Warranties that downloaded files will be free of malware (we don't modify files)</li>
+    </ul>
+  </div>
+
+  <div class="section-block" id="s7">
+    <h2>7. Limitation of Liability</h2>
+    <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, PS DOWNLOADER SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO:</p>
+    <ul>
+      <li>Loss of profits, data, or goodwill</li>
+      <li>Copyright infringement claims arising from your use of the service</li>
+      <li>Damages resulting from unauthorized access to your transmissions or data</li>
+      <li>Any third-party conduct or content accessed through the service</li>
+    </ul>
+    <p>You agree to indemnify and hold harmless PS Downloader from any claims, damages, or legal fees arising from your violation of these Terms.</p>
+  </div>
+
+  <div class="section-block" id="s8">
+    <h2>8. Third-Party Platforms</h2>
+    <p>PS Downloader interacts with third-party platforms (YouTube, TikTok, etc.) to extract media. We are not affiliated with, endorsed by, or sponsored by any of these platforms. Use of these platforms is subject to their respective terms of service:</p>
+    <ul>
+      <li>YouTube Terms of Service — youtube.com/t/terms</li>
+      <li>TikTok Terms of Service — tiktok.com/legal/terms-of-service</li>
+      <li>Instagram Terms of Use — instagram.com/legal/terms</li>
+      <li>Facebook Terms of Service — facebook.com/legal/terms</li>
+    </ul>
+    <p>We cannot guarantee continued compatibility with these platforms as they may change their systems at any time.</p>
+  </div>
+
+  <div class="section-block" id="s9">
+    <h2>9. Availability & Modifications</h2>
+    <p>We reserve the right to modify, suspend, or discontinue the Service at any time without notice. We may also update these Terms of Service at any time. Continued use of the Service after changes constitutes acceptance of the updated Terms.</p>
+    <p>We may implement rate limits, access restrictions, or other measures to ensure fair use and service stability.</p>
+  </div>
+
+  <div class="section-block" id="s10">
+    <h2>10. Governing Law</h2>
+    <p>These Terms of Service shall be governed by and construed in accordance with applicable international laws. Any disputes arising from use of the Service shall be resolved through good-faith negotiation. If unresolved, disputes will be subject to binding arbitration in accordance with applicable law.</p>
+  </div>
+
+  <div class="section-block" id="s11">
+    <h2>11. Contact Us</h2>
+    <p>For questions about these Terms of Service, please contact us:</p>
+  </div>
+
+  <div class="contact-card">
+    <h3>📬 Legal Inquiries</h3>
+    <p style="margin-bottom:10px">Questions about our Terms of Service:</p>
+    <a href="mailto:legal@psdownloader.com">legal@psdownloader.com</a>
+    <p style="margin-top:10px;font-size:.8rem">We aim to respond within 5 business days.</p>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  <div class="page-footer-links">
+    <a href="/">Home</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html" class="active">Terms of Service</a>
+    <a href="/dmca.html">DMCA</a>
+  </div>
+  <div class="page-footer-copy">© 2026 PS DOWNLOADER. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DMCA Policy — PS DOWNLOADER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Exo+2:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--red:#ff0000;--red-glow:rgba(255,0,0,0.3);--red-subtle:rgba(255,0,0,0.07);--border:rgba(255,0,0,0.13);--bg:#060606;--bg2:#0d0d0d;--white:#fff;--gray:#888;--gray2:#3a3a3a}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Exo 2',sans-serif;overflow-x:hidden;line-height:1.7}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(255,0,0,0.4);border-radius:10px}
+nav{position:sticky;top:0;z-index:100;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(4,4,4,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:36px;height:36px;background:#090909;border-radius:9px;border:1.5px solid var(--red);display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px var(--red-glow)}
+.logo-icon svg{filter:drop-shadow(0 0 3px var(--red))}
+.logo-text{font-family:'Rajdhani',sans-serif;font-size:1.25rem;font-weight:700;letter-spacing:2px}.logo-text span{color:var(--red)}
+.back-btn{display:inline-flex;align-items:center;gap:7px;color:var(--gray);text-decoration:none;font-size:.82rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color .2s;border:1px solid var(--gray2);padding:6px 14px;border-radius:6px}
+.back-btn:hover{color:var(--red);border-color:var(--red)}
+.page-hero{padding:64px 24px 48px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,0.04)}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(255,0,0,0.06),transparent 70%)}
+.page-tag{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);background:var(--red-subtle);border:1px solid var(--border);padding:4px 14px;border-radius:100px;margin-bottom:18px}
+.page-title{font-family:'Rajdhani',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;letter-spacing:-.5px;margin-bottom:10px}
+.page-date{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--gray);letter-spacing:1px}
+.page-div{width:40px;height:3px;background:var(--red);margin:18px auto 0;box-shadow:0 0 10px var(--red)}
+.page-content{max-width:820px;margin:0 auto;padding:56px 24px 80px}
+.section-block{margin-bottom:44px}
+.section-block h2{font-family:'Rajdhani',sans-serif;font-size:1.35rem;font-weight:700;letter-spacing:.5px;margin-bottom:14px;color:var(--white);display:flex;align-items:center;gap:10px}
+.section-block h2::before{content:'';width:3px;height:22px;background:var(--red);border-radius:2px;box-shadow:0 0 8px var(--red);flex-shrink:0}
+.section-block p{font-size:.9rem;color:var(--gray);margin-bottom:12px;line-height:1.8}
+.section-block ul{list-style:none;margin:10px 0 12px}
+.section-block ul li{font-size:.88rem;color:var(--gray);padding:8px 0 8px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,0.03)}
+.section-block ul li::before{content:'›';position:absolute;left:0;color:var(--red);font-weight:700}
+.section-block ul li:last-child{border-bottom:none}
+.highlight-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin:16px 0;border-left:3px solid var(--red)}
+.highlight-box p{margin-bottom:0;color:#aaa}
+.warn-box{background:rgba(255,150,0,0.05);border:1px solid rgba(255,150,0,0.2);border-radius:12px;padding:20px 24px;margin:16px 0;border-left:3px solid #ff9600}
+.warn-box p{color:#aaa;margin-bottom:0}
+/* DMCA FORM */
+.dmca-form-card{background:var(--bg2);border:1px solid rgba(255,0,0,0.2);border-radius:16px;padding:36px;margin-top:20px;box-shadow:0 0 40px rgba(255,0,0,0.04)}
+.dmca-form-card h3{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.dmca-form-card h3::before{content:'';width:3px;height:20px;background:var(--red);border-radius:2px;box-shadow:0 0 6px var(--red)}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:7px}
+.form-group label span{color:var(--red)}
+.form-input,.form-textarea{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px 16px;color:var(--white);font-family:'Exo 2',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s,box-shadow .2s;resize:vertical}
+.form-input::placeholder,.form-textarea::placeholder{color:#3a3a3a}
+.form-input:focus,.form-textarea:focus{border-color:var(--red);box-shadow:0 0 16px rgba(255,0,0,0.15)}
+.form-textarea{min-height:120px;line-height:1.6}
+.form-check{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.84rem;color:var(--gray);line-height:1.5}
+.form-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--red);flex-shrink:0;margin-top:2px}
+.submit-btn{width:100%;background:var(--red);border:none;color:#fff;padding:15px;border-radius:9px;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .25s;box-shadow:0 0 20px rgba(255,0,0,0.3);margin-top:8px}
+.submit-btn:hover{box-shadow:0 0 36px rgba(255,0,0,0.55);transform:translateY(-1px)}
+.form-note{font-size:.75rem;color:var(--gray2);text-align:center;margin-top:12px;line-height:1.5}
+.contact-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;margin-top:40px}
+.contact-card h3{font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:8px}
+.contact-card p{font-size:.85rem;color:var(--gray);margin-bottom:0}
+.contact-card a{color:var(--red);text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:.85rem}
+.steps-list{counter-reset:steps;list-style:none;margin:10px 0}
+.steps-list li{counter-increment:steps;font-size:.88rem;color:var(--gray);padding:10px 0 10px 44px;position:relative;border-bottom:1px solid rgba(255,255,255,0.03)}
+.steps-list li::before{content:counter(steps);position:absolute;left:0;top:8px;width:28px;height:28px;background:var(--red-subtle);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--red);font-size:.75rem;font-weight:700;text-align:center;line-height:28px}
+.steps-list li:last-child{border-bottom:none}
+.page-footer{background:#040404;border-top:1px solid rgba(255,0,0,0.09);padding:24px;text-align:center}
+.page-footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:12px;flex-wrap:wrap}
+.page-footer-links a{font-size:.75rem;color:var(--gray2);text-decoration:none;transition:color .2s}
+.page-footer-links a:hover,.page-footer-links a.active{color:var(--red)}
+.page-footer-copy{font-size:.72rem;color:var(--gray2)}
+#successMsg{display:none;background:rgba(0,200,100,0.08);border:1px solid rgba(0,200,100,0.25);border-radius:10px;padding:18px 24px;text-align:center;color:#00c864;font-size:.9rem;margin-top:16px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-icon">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <circle cx="9" cy="9" r="7" stroke="#ff0000" stroke-width="1.5" opacity="0.5"/>
+        <path d="M9 3v7M6 8l3 4 3-4" stroke="#ff0000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5 14h8" stroke="#ff0000" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="logo-text">PS <span>DOWN</span>LOADER</div>
+  </a>
+  <a href="/" class="back-btn">← Back to Home</a>
+</nav>
+
+<div class="page-hero">
+  <div class="page-tag">Legal Document</div>
+  <h1 class="page-title">DMCA Policy</h1>
+  <div class="page-date">Last Updated: January 01, 2026 &nbsp;·&nbsp; Effective: January 01, 2026</div>
+  <div class="page-div"></div>
+</div>
+
+<div class="page-content">
+
+  <div class="highlight-box">
+    <p>⚖️ <strong style="color:#fff">PS Downloader respects intellectual property rights.</strong> We comply with the Digital Millennium Copyright Act (DMCA) and respond promptly to valid copyright infringement notices. If you believe your copyrighted work has been infringed, please use the form below.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>Our DMCA Policy</h2>
+    <p>PS Downloader is a tool that facilitates access to publicly available media on third-party platforms. We do not host, store, or distribute any media content on our servers. All content remains on and is served from the originating platforms.</p>
+    <p>However, we take copyright concerns seriously. If you are a copyright holder and believe PS Downloader is being used in a way that infringes your rights, you may submit a DMCA takedown notice. We will review valid notices within <strong style="color:#ccc">72 business hours</strong>.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>What Qualifies for a DMCA Notice?</h2>
+    <ul>
+      <li>You are the copyright owner or authorized agent of the copyright owner</li>
+      <li>A specific copyrighted work has been infringed</li>
+      <li>You can identify the specific infringing material or activity</li>
+      <li>You have a good-faith belief that the use is not authorized</li>
+    </ul>
+    <div class="warn-box">
+      <p>⚠️ <strong style="color:#ffa000">False DMCA claims are a violation of the DMCA itself</strong> and may expose you to liability. Only submit a notice if you are the rightful copyright holder or authorized agent.</p>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Our Response Process</h2>
+    <ul class="steps-list">
+      <li><strong style="color:#ccc">Receive & Review:</strong> We receive your DMCA notice and review it for completeness and validity within 72 hours.</li>
+      <li><strong style="color:#ccc">Verify Claim:</strong> We verify that the claimed content actually exists and assess the legitimacy of the claim.</li>
+      <li><strong style="color:#ccc">Take Action:</strong> If valid, we take appropriate action which may include blocking access to specific URLs through our service.</li>
+      <li><strong style="color:#ccc">Notify Uploader:</strong> Where applicable, we notify the user who submitted the URL about the DMCA notice.</li>
+      <li><strong style="color:#ccc">Counter-Notice:</strong> The affected user may submit a counter-notice if they believe the claim is invalid.</li>
+      <li><strong style="color:#ccc">Resolve:</strong> If no counter-notice is received within 14 business days, the restriction remains in place permanently.</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h2>Required Information for DMCA Notice</h2>
+    <p>A valid DMCA notice must include all of the following under penalty of perjury:</p>
+    <ul>
+      <li>Your full legal name and contact information (email, address, phone)</li>
+      <li>A description of the copyrighted work you claim has been infringed</li>
+      <li>Identification of the specific infringing URL or material on PS Downloader</li>
+      <li>A statement that you have a good-faith belief the use is unauthorized</li>
+      <li>A statement that the information in the notice is accurate</li>
+      <li>Your physical or electronic signature</li>
+    </ul>
+  </div>
+
+  <!-- DMCA FORM -->
+  <div class="section-block">
+    <h2>Submit a DMCA Notice</h2>
+    <p>Complete the form below to submit your DMCA takedown request. All fields marked with <span style="color:var(--red)">*</span> are required.</p>
+
+    <div class="dmca-form-card">
+      <h3>DMCA Takedown Request Form</h3>
+
+      <div class="form-group">
+        <label>Full Legal Name <span>*</span></label>
+        <input type="text" class="form-input" id="f-name" placeholder="Your full legal name">
+      </div>
+
+      <div class="form-group">
+        <label>Email Address <span>*</span></label>
+        <input type="email" class="form-input" id="f-email" placeholder="your@email.com">
+      </div>
+
+      <div class="form-group">
+        <label>Company / Organization</label>
+        <input type="text" class="form-input" id="f-company" placeholder="Company name (if applicable)">
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" class="form-input" id="f-phone" placeholder="+1 (555) 000-0000">
+      </div>
+
+      <div class="form-group">
+        <label>Description of Copyrighted Work <span>*</span></label>
+        <textarea class="form-textarea" id="f-work" placeholder="Describe the copyrighted work. Include title, publication date, and where the original can be found..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Infringing URL(s) on PS Downloader <span>*</span></label>
+        <textarea class="form-textarea" id="f-urls" style="min-height:90px" placeholder="Paste the specific URL(s) or video link(s) that you believe infringe your copyright, one per line..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Additional Information</label>
+        <textarea class="form-textarea" id="f-extra" style="min-height:90px" placeholder="Any additional context, evidence links, or information that supports your claim..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-check">
+          <input type="checkbox" id="f-check1">
+          <span>I have a good-faith belief that use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law. <span style="color:var(--red)">*</span></span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="form-check">
+          <input type="checkbox" id="f-check2">
+          <span>I swear, under penalty of perjury, that the information in this notification is accurate and that I am the copyright owner or authorized to act on behalf of the owner. <span style="color:var(--red)">*</span></span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="form-check">
+          <input type="checkbox" id="f-check3">
+          <span>I understand that submitting a false DMCA notice may expose me to legal liability under 17 U.S.C. § 512(f). <span style="color:var(--red)">*</span></span>
+        </label>
+      </div>
+
+      <div class="form-group" style="margin-top:8px">
+        <label>Electronic Signature (type your full name) <span>*</span></label>
+        <input type="text" class="form-input" id="f-sig" placeholder="Type your full legal name as your electronic signature">
+      </div>
+
+      <button class="submit-btn" onclick="submitDMCA()">
+        📤 Submit DMCA Notice
+      </button>
+
+      <div id="successMsg">
+        ✅ <strong>Your DMCA notice has been received.</strong><br>
+        We will review it and respond to your email within 72 business hours. Reference ID: <span id="refId"></span>
+      </div>
+
+      <p class="form-note">
+        You may also email your notice directly to <a href="mailto:dmca@psdownloader.com" style="color:var(--red)">dmca@psdownloader.com</a><br>
+        We aim to respond to all valid DMCA notices within 72 business hours.
+      </p>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Counter-Notice Policy</h2>
+    <p>If your URL was restricted due to a DMCA notice and you believe the claim was made in error, you may submit a counter-notice. Your counter-notice must include:</p>
+    <ul>
+      <li>Your full name, address, phone number, and email</li>
+      <li>Identification of the specific restricted material and its former URL</li>
+      <li>A statement under penalty of perjury that you have a good-faith belief the material was removed by mistake</li>
+      <li>A statement consenting to jurisdiction</li>
+      <li>Your physical or electronic signature</li>
+    </ul>
+    <p>Send counter-notices to: <a href="mailto:dmca@psdownloader.com" style="color:var(--red)">dmca@psdownloader.com</a></p>
+  </div>
+
+  <div class="section-block">
+    <h2>Repeat Infringer Policy</h2>
+    <p>In accordance with the DMCA and our commitment to copyright protection, PS Downloader maintains a policy of terminating access for users who are determined to be repeat copyright infringers, in appropriate circumstances.</p>
+  </div>
+
+  <div class="contact-card">
+    <h3>📬 DMCA Designated Agent</h3>
+    <p style="margin-bottom:8px">For DMCA notices and inquiries:</p>
+    <a href="mailto:dmca@psdownloader.com">dmca@psdownloader.com</a>
+    <p style="margin-top:10px;font-size:.8rem;color:#555">PS Downloader · DMCA Department<br>contact@psdownloader.com</p>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  <div class="page-footer-links">
+    <a href="/">Home</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+    <a href="/dmca.html" class="active">DMCA</a>
+  </div>
+  <div class="page-footer-copy">© 2026 PS DOWNLOADER. All rights reserved.</div>
+</footer>
+
+<script>
+function submitDMCA() {
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const work = document.getElementById('f-work').value.trim();
+  const urls = document.getElementById('f-urls').value.trim();
+  const sig = document.getElementById('f-sig').value.trim();
+  const c1 = document.getElementById('f-check1').checked;
+  const c2 = document.getElementById('f-check2').checked;
+  const c3 = document.getElementById('f-check3').checked;
+
+  if (!name || !email || !work || !urls || !sig) {
+    alert('Please fill in all required fields marked with *');
+    return;
+  }
+  if (!c1 || !c2 || !c3) {
+    alert('Please check all three required declarations before submitting.');
+    return;
+  }
+  if (!email.includes('@')) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  // In production this would POST to /api/dmca
+  // For now, show a success message with a reference ID
+  const refId = 'DMCA-' + Date.now().toString(36).toUpperCase();
+  document.getElementById('refId').textContent = refId;
+  document.getElementById('successMsg').style.display = 'block';
+  document.querySelector('.submit-btn').disabled = true;
+  document.querySelector('.submit-btn').style.opacity = '0.5';
+  document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>
