@@ -25,7 +25,9 @@ app.use(helmet({
   },
   crossOriginEmbedderPolicy: false
 }));
-app.use(cors({ origin: true, methods: ['GET','POST'] }));
+app.use(cors({ origin: true, methods: ['GET','POST'], allowedHeaders: ['Content-Type'] }));
+// Explicit preflight handler
+app.options('*', cors());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: false, limit: '1mb' }));
 app.use('/api', rateLimit({

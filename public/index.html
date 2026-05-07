@@ -620,69 +620,73 @@ footer{background:#040404;border-top:1px solid rgba(255,0,0,.09);padding:44px 24
 </div>
 
 <script>
-// ═══════════════════════════════════════════
-//  PS DOWNLOADER — Frontend JavaScript
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  PS DOWNLOADER — Complete Frontend JS
+// ═══════════════════════════════════════════════
 
-// API uses relative paths — same origin as backend
-
-// ── PARTICLES ──────────────────────────────
+// ── PARTICLES ──────────────────────────────────
 const cvs = document.getElementById('pc');
-const ctx = cvs.getContext('2d');
-let pts = [];
-function resizeCvs() { cvs.width = innerWidth; cvs.height = innerHeight; }
-function initPts() {
-  pts = [];
-  const n = Math.floor((cvs.width * cvs.height) / 20000);
-  for (let i = 0; i < n; i++) pts.push({
-    x: Math.random()*cvs.width, y: Math.random()*cvs.height,
-    r: Math.random()*1.4+0.3, sp: Math.random()*0.25+0.07,
-    a: Math.random()*0.45+0.08, dx: (Math.random()-0.5)*0.35,
-    ph: Math.random()*Math.PI*2
-  });
+if (cvs) {
+  const ctx = cvs.getContext('2d');
+  let pts = [];
+  function resizeCvs() { cvs.width = innerWidth; cvs.height = innerHeight; }
+  function initPts() {
+    pts = [];
+    const n = Math.floor((cvs.width * cvs.height) / 22000);
+    for (let i = 0; i < n; i++) pts.push({
+      x: Math.random()*cvs.width, y: Math.random()*cvs.height,
+      r: Math.random()*1.3+0.3, sp: Math.random()*0.22+0.06,
+      a: Math.random()*0.4+0.08, dx: (Math.random()-0.5)*0.3,
+      ph: Math.random()*Math.PI*2
+    });
+  }
+  function animPts() {
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    pts.forEach(p => {
+      p.ph += 0.018;
+      const a = p.a*(0.55+0.45*Math.sin(p.ph));
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = p.a > 0.38 ? `rgba(255,0,0,${a})` : `rgba(255,255,255,${a*0.5})`;
+      ctx.fill();
+      p.y -= p.sp; p.x += p.dx;
+      if (p.y < -5) { p.y = cvs.height+5; p.x = Math.random()*cvs.width; }
+      if (p.x < -5) p.x = cvs.width+5;
+      if (p.x > cvs.width+5) p.x = -5;
+    });
+    requestAnimationFrame(animPts);
+  }
+  resizeCvs(); initPts(); animPts();
+  window.addEventListener('resize', () => { resizeCvs(); initPts(); });
 }
-function animPts() {
-  ctx.clearRect(0,0,cvs.width,cvs.height);
-  pts.forEach(p => {
-    p.ph += 0.018;
-    const a = p.a*(0.55+0.45*Math.sin(p.ph));
-    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle = p.a > 0.4 ? `rgba(255,0,0,${a})` : `rgba(255,255,255,${a*0.55})`;
-    ctx.fill();
-    p.y -= p.sp; p.x += p.dx;
-    if (p.y < -5) { p.y = cvs.height+5; p.x = Math.random()*cvs.width; }
-    if (p.x < -5) p.x = cvs.width+5;
-    if (p.x > cvs.width+5) p.x = -5;
-  });
-  requestAnimationFrame(animPts);
-}
-resizeCvs(); initPts(); animPts();
-window.addEventListener('resize', () => { resizeCvs(); initPts(); });
 
-// ── CUSTOM CURSOR ───────────────────────────
-const cd = document.getElementById('cd'), cr = document.getElementById('cr');
+// ── CUSTOM CURSOR ───────────────────────────────
+const cd = document.getElementById('cd');
+const cr = document.getElementById('cr');
 let mx=-100, my=-100, rx=-100, ry=-100;
 document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
 function animCursor() {
-  cd.style.left=mx+'px'; cd.style.top=my+'px';
-  rx += (mx-rx)*0.11; ry += (my-ry)*0.11;
-  cr.style.left=rx+'px'; cr.style.top=ry+'px';
+  if (cd) { cd.style.left=mx+'px'; cd.style.top=my+'px'; }
+  if (cr) {
+    rx += (mx-rx)*0.11; ry += (my-ry)*0.11;
+    cr.style.left=rx+'px'; cr.style.top=ry+'px';
+  }
   requestAnimationFrame(animCursor);
 }
 if (matchMedia('(pointer:fine)').matches) animCursor();
 document.querySelectorAll('button,a,.plt-card,.feat-card,.faq-q,.fmt-btn').forEach(el => {
-  el.addEventListener('mouseenter', () => cr.classList.add('h'));
-  el.addEventListener('mouseleave', () => cr.classList.remove('h'));
+  el.addEventListener('mouseenter', () => cr && cr.classList.add('h'));
+  el.addEventListener('mouseleave', () => cr && cr.classList.remove('h'));
 });
 
-// ── SCROLL ──────────────────────────────────
+// ── SCROLL ──────────────────────────────────────
 window.addEventListener('scroll', () => {
-  const pct = scrollY / (document.documentElement.scrollHeight - innerHeight) * 100;
-  document.getElementById('sp').style.width = pct + '%';
-  document.getElementById('nav').classList.toggle('sc', scrollY > 10);
+  const sp = document.getElementById('sp');
+  if (sp) sp.style.width = (scrollY / (document.documentElement.scrollHeight - innerHeight) * 100) + '%';
+  const nav = document.getElementById('nav');
+  if (nav) nav.classList.toggle('sc', scrollY > 10);
 });
 
-// ── FADE OBSERVER ───────────────────────────
+// ── FADE OBSERVER ───────────────────────────────
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e, i) => {
     if (e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i * 75);
@@ -690,7 +694,7 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 document.querySelectorAll('.fi').forEach(el => io.observe(el));
 
-// ── TICKER ──────────────────────────────────
+// ── TICKER ──────────────────────────────────────
 const ticks = [
   'User from 🇺🇸 downloaded YouTube HD 1080p',
   'User from 🇬🇧 downloaded Instagram Reel',
@@ -701,12 +705,12 @@ const ticks = [
   'User from 🇰🇷 extracted MP3 Audio',
   'User from 🇮🇳 downloaded TikTok SD',
   'User from 🇦🇺 downloaded Twitter/X video',
-  'User from 🇨🇦 downloaded Vimeo HD',
   'User from 🇸🇬 downloaded YouTube 4K',
 ];
 let ti = 0;
 setInterval(() => {
   const el = document.getElementById('tt');
+  if (!el) return;
   el.style.opacity = '0'; el.style.transform = 'translateY(7px)';
   setTimeout(() => {
     ti = (ti+1) % ticks.length;
@@ -715,132 +719,183 @@ setInterval(() => {
   }, 280);
 }, 3200);
 
-// ── MOBILE MENU ─────────────────────────────
+// ── MOBILE MENU ─────────────────────────────────
 let menuOpen = false;
 function toggleMenu() {
   menuOpen = !menuOpen;
-  document.getElementById('mm').classList.toggle('open', menuOpen);
-  document.getElementById('hbg').innerHTML = menuOpen
-    ? `<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3l12 12M15 3L3 15" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`
-    : `<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`;
+  const mm = document.getElementById('mm');
+  const hbg = document.getElementById('hbg');
+  if (mm) mm.classList.toggle('open', menuOpen);
+  if (hbg) hbg.innerHTML = menuOpen
+    ? '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3l12 12M15 3L3 15" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>'
+    : '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
 }
 
-// ── URL HISTORY ──────────────────────────────
+// ── URL HISTORY ──────────────────────────────────
 function saveHist(url) {
-  let h = JSON.parse(localStorage.getItem('ps_h') || '[]');
-  h = [url, ...h.filter(u => u !== url)].slice(0, 6);
-  localStorage.setItem('ps_h', JSON.stringify(h));
+  try {
+    let h = JSON.parse(localStorage.getItem('ps_h') || '[]');
+    h = [url, ...h.filter(u => u !== url)].slice(0, 6);
+    localStorage.setItem('ps_h', JSON.stringify(h));
+  } catch {}
 }
 function renderHist() {
-  const h = JSON.parse(localStorage.getItem('ps_h') || '[]');
-  const w = document.getElementById('histWrap');
-  if (!h.length) { w.style.display='none'; return; }
-  w.style.display = 'block';
-  w.innerHTML = `<div class="hist-label">Recent URLs</div>` + h.map(u => `
-    <div class="hist-item" onclick="loadHist('${u.replace(/'/g,"\\'")}')">
-      <span>🔗</span>
-      <span class="hist-url">${u.length > 55 ? u.slice(0,55)+'…' : u}</span>
-      <span style="color:#3a3a3a;font-size:.8rem">↵</span>
-    </div>`).join('');
+  try {
+    const h = JSON.parse(localStorage.getItem('ps_h') || '[]');
+    const w = document.getElementById('histWrap');
+    if (!w) return;
+    if (!h.length) { w.style.display='none'; return; }
+    w.style.display = 'block';
+    w.innerHTML = '<div class="hist-label">Recent URLs</div>' + h.map(u =>
+      '<div class="hist-item" onclick="loadHist(\'' + u.replace(/'/g, "\\'") + '\')">' +
+      '<span>🔗</span>' +
+      '<span class="hist-url">' + (u.length > 55 ? u.slice(0,55)+'…' : u) + '</span>' +
+      '<span style="color:#3a3a3a;font-size:.8rem">↵</span>' +
+      '</div>'
+    ).join('');
+  } catch {}
 }
 function loadHist(url) {
-  document.getElementById('urlInput').value = url;
-  document.getElementById('histWrap').style.display = 'none';
+  const input = document.getElementById('urlInput');
+  if (input) input.value = url;
+  const w = document.getElementById('histWrap');
+  if (w) w.style.display = 'none';
 }
 function onUrlFocus() { renderHist(); }
 function onUrlInput() {
-  document.getElementById('errMsg').classList.remove('show');
-  document.getElementById('histWrap').style.display = 'none';
+  const e = document.getElementById('errMsg');
+  if (e) e.classList.remove('show');
+  const w = document.getElementById('histWrap');
+  if (w) w.style.display = 'none';
 }
 document.addEventListener('click', e => {
-  if (!e.target.closest('.url-wrap')) document.getElementById('histWrap').style.display='none';
+  if (!e.target.closest('.url-wrap')) {
+    const w = document.getElementById('histWrap');
+    if (w) w.style.display = 'none';
+  }
 });
 
-// ── PASTE ───────────────────────────────────
+// ── PASTE ───────────────────────────────────────
 async function pasteUrl() {
   const input = document.getElementById('urlInput');
-  // Try clipboard API first
-  if (navigator.clipboard && navigator.clipboard.readText) {
-    try {
+  if (!input) return;
+  try {
+    if (navigator.clipboard && navigator.clipboard.readText) {
       const t = await navigator.clipboard.readText();
       if (t && t.trim()) {
         input.value = t.trim();
-        showToast('📋 URL pasted!');
+        showToast('📋 Pasted!');
         onUrlInput();
         return;
       }
-    } catch {}
-  }
-  // Fallback: focus and let user paste manually
+    }
+  } catch {}
   input.focus();
   input.select();
-  showToast('📋 Press Ctrl+V (or Cmd+V) to paste');
+  document.execCommand('paste');
+  showToast('📋 Press Ctrl+V to paste');
 }
 
-// ── SET URL FROM PLATFORM CARDS ─────────────
+// ── SET URL ──────────────────────────────────────
 function setUrl(url) {
-  document.getElementById('urlInput').value = url;
-  scrollToHero();
-  setTimeout(() => document.getElementById('urlInput').focus(), 400);
-}
-function scrollToHero() {
+  const input = document.getElementById('urlInput');
+  if (input) input.value = url;
   document.querySelector('.hero').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(() => input && input.focus(), 400);
 }
 
-// ── PROGRESS BAR ────────────────────────────
+// ── PROGRESS BAR ────────────────────────────────
 let pInterval;
 function startProgress() {
   const bar = document.getElementById('pbar');
   const lbl = document.getElementById('plabel');
-  document.getElementById('pbwrap').style.display = 'block';
+  const wrap = document.getElementById('pbwrap');
+  if (!bar || !wrap) return;
+  wrap.style.display = 'block';
   bar.style.width = '0%';
-  const steps = ['Connecting to server…','Fetching media info…','Extracting formats…','Almost ready…'];
+  const steps = ['Connecting…','Fetching media info…','Extracting formats…','Almost ready…'];
   let pct = 0, si = 0;
-  lbl.textContent = steps[0];
+  if (lbl) lbl.textContent = steps[0];
   pInterval = setInterval(() => {
-    pct += Math.random()*15+7;
-    if (pct >= 92) pct = 92;
+    pct = Math.min(pct + Math.random()*15+7, 92);
     bar.style.width = pct + '%';
     si = Math.min(Math.floor(pct/25), steps.length-1);
-    lbl.textContent = steps[si];
+    if (lbl) lbl.textContent = steps[si];
   }, 350);
 }
 function endProgress() {
   clearInterval(pInterval);
-  document.getElementById('pbar').style.width = '100%';
-  setTimeout(() => { document.getElementById('pbwrap').style.display='none'; }, 300);
+  const bar  = document.getElementById('pbar');
+  const wrap = document.getElementById('pbwrap');
+  if (bar) bar.style.width = '100%';
+  setTimeout(() => { if (wrap) wrap.style.display='none'; }, 400);
+}
+function resetBtn() {
+  const btn = document.getElementById('dlBtn');
+  if (!btn) return;
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M3.5 7l4 4 4-4M1 14h13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Download';
 }
 
-// ── MAIN FETCH ───────────────────────────────
+// ── TOAST ────────────────────────────────────────
+let toastT;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toastMsg');
+  if (!t || !m) return;
+  m.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 4000);
+}
+function showError(msg) {
+  const e = document.getElementById('errMsg');
+  if (!e) return;
+  e.textContent = '⚠️ ' + msg;
+  e.classList.add('show');
+}
+
+// ── MAIN FETCH ───────────────────────────────────
 let sessCount = 0;
+
 async function startFetch() {
   const input = document.getElementById('urlInput');
-  let url = input.value.trim();
-  const btn = document.getElementById('dlBtn');
+  const btn   = document.getElementById('dlBtn');
+  const errEl = document.getElementById('errMsg');
+  const spinEl = document.getElementById('spinWrap');
+  const resEl  = document.getElementById('results');
 
-  // Auto-add https:// if missing
+  if (!input || !btn) { console.error('Missing DOM elements'); return; }
+
+  let url = input.value.trim();
+
+  // Auto-add protocol
   if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
     url = 'https://' + url;
     input.value = url;
   }
 
-  if (!url || !url.startsWith('http')) {
-    document.getElementById('errMsg').textContent = '⚠️ Please paste a valid video link (e.g. https://youtube.com/watch?v=...)';
-    document.getElementById('errMsg').classList.add('show');
-    document.getElementById('urlForm').style.boxShadow = '0 0 28px rgba(255,0,0,.5)';
-    setTimeout(() => document.getElementById('urlForm').style.boxShadow='', 1400);
+  // Validate
+  if (!url || url.length < 10) {
+    if (errEl) { errEl.textContent = '⚠️ Please paste a video link first'; errEl.classList.add('show'); }
     input.focus();
     return;
   }
+  try { new URL(url); } catch {
+    if (errEl) { errEl.textContent = '⚠️ Invalid URL format'; errEl.classList.add('show'); }
+    return;
+  }
 
-  document.getElementById('errMsg').classList.remove('show');
-  document.getElementById('histWrap').style.display = 'none';
-  document.getElementById('results').classList.remove('on');
-  document.getElementById('spinWrap').classList.add('on');
+  // Reset UI
+  if (errEl) errEl.classList.remove('show');
+  if (resEl) resEl.classList.remove('on');
+  if (spinEl) spinEl.classList.add('on');
   btn.disabled = true;
-  btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M3.5 7l4 4 4-4M1 14h13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Processing...';
+  btn.innerHTML = '⏳ Processing...';
   startProgress();
   saveHist(url);
+
+  console.log('[PS] Fetching info for:', url);
 
   try {
     const res = await fetch('/api/info', {
@@ -849,103 +904,116 @@ async function startFetch() {
       body: JSON.stringify({ url })
     });
 
-    const data = await res.json();
+    console.log('[PS] Response status:', res.status);
     endProgress();
-    document.getElementById('spinWrap').classList.remove('on');
+    if (spinEl) spinEl.classList.remove('on');
+
+    let data;
+    try { data = await res.json(); }
+    catch(je) { console.error('[PS] JSON parse error:', je); showError('Server returned invalid response.'); resetBtn(); return; }
+
+    console.log('[PS] Response data:', data);
 
     if (!res.ok || !data.success) {
       showError(data.error || 'Could not fetch media. Check the URL and try again.');
-      btn.disabled = false;
-      btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M3.5 7l4 4 4-4M1 14h13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Download';
+      resetBtn();
       return;
     }
 
     renderResults(url, data);
     sessCount++;
-    document.getElementById('sessCount').textContent = sessCount;
-    showToast('✅ Found ' + data.media.formats.length + ' formats!');
-    document.getElementById('results').classList.add('on');
-    setTimeout(() => document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    const sc = document.getElementById('sessCount');
+    if (sc) sc.textContent = sessCount;
+    showToast('✅ ' + data.media.formats.length + ' formats found!');
+    if (resEl) {
+      resEl.classList.add('on');
+      setTimeout(() => resEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+    }
 
   } catch (err) {
     endProgress();
-    document.getElementById('spinWrap').classList.remove('on');
-    showError('Connection error. Make sure the server is running.');
-    console.error('[startFetch]', err);
+    if (spinEl) spinEl.classList.remove('on');
+    console.error('[PS] Fetch error:', err);
+    showError('Connection failed. Check your internet and try again. (' + err.message + ')');
   }
 
-  btn.disabled = false;
-  btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M3.5 7l4 4 4-4M1 14h13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Download';
+  resetBtn();
 }
 
-// ── RENDER RESULTS ───────────────────────────
+// ── RENDER RESULTS ───────────────────────────────
 function renderResults(url, data) {
   const { platform, media } = data;
 
-  document.getElementById('resPlatform').textContent = platform.name || 'Media';
-  document.getElementById('resTitle').textContent = media.title || 'Untitled';
-  document.getElementById('resDur').textContent = media.duration ? `⏱ ${media.duration}` : '';
-  document.getElementById('resUp').textContent = media.uploader ? `👤 ${media.uploader}` : '';
-  document.getElementById('resViews').textContent = media.viewCount ? `👁 ${media.viewCount}` : '';
+  const platEl  = document.getElementById('resPlatform');
+  const titleEl = document.getElementById('resTitle');
+  const durEl   = document.getElementById('resDur');
+  const upEl    = document.getElementById('resUp');
+  const viewEl  = document.getElementById('resViews');
+
+  if (platEl)  platEl.textContent  = platform.name || 'Media';
+  if (titleEl) titleEl.textContent = media.title   || 'Untitled';
+  if (durEl)   durEl.textContent   = media.duration  ? '⏱ ' + media.duration  : '';
+  if (upEl)    upEl.textContent    = media.uploader   ? '👤 ' + media.uploader   : '';
+  if (viewEl)  viewEl.textContent  = media.viewCount  ? '👁 ' + media.viewCount  : '';
 
   // Thumbnail
   const img = document.getElementById('thumb');
   const ph  = document.getElementById('thumbPh');
-  if (media.thumbnail) {
-    img.style.display = 'none';
-    ph.style.display  = 'flex';
-    img.onload  = () => { img.style.display='block'; ph.style.display='none'; };
-    img.onerror = () => {
-      if (media.thumbnailFallback && img.src !== media.thumbnailFallback) {
-        img.src = media.thumbnailFallback;
-      } else {
-        img.style.display='none'; ph.style.display='flex';
-      }
-    };
-    img.src = media.thumbnail;
-  } else {
-    img.style.display='none'; ph.style.display='flex';
+  if (img && ph) {
+    if (media.thumbnail) {
+      img.style.display = 'none'; ph.style.display = 'flex';
+      img.onload  = () => { img.style.display='block'; ph.style.display='none'; };
+      img.onerror = () => {
+        if (media.thumbnailFallback && img.src !== media.thumbnailFallback) {
+          img.src = media.thumbnailFallback;
+        } else { img.style.display='none'; ph.style.display='flex'; }
+      };
+      img.src = media.thumbnail;
+    } else { img.style.display='none'; ph.style.display='flex'; }
   }
 
   // Format buttons
   const grid = document.getElementById('fmtGrid');
-  grid.innerHTML = media.formats.map(f => {
+  if (!grid) return;
+  grid.innerHTML = (media.formats || []).map(f => {
     const isAudio = f.type === 'audio';
-    const avail = f.available !== false; // default true if not specified
+    const avail   = f.available !== false;
     const tagClass = isAudio ? 'tag-a'
       : (f.tag==='4K'||f.tag==='QHD'||f.tag==='FHD') ? 'tag-hd'
-      : (f.tag==='HD') ? 'tag-hd'
-      : (f.tag==='SD') ? 'tag-sd'
-      : (f.tag==='LOW') ? 'tag-sd'
+      : f.tag==='HD'  ? 'tag-hd'
+      : f.tag==='SD'  ? 'tag-sd'
+      : f.tag==='LOW' ? 'tag-sd'
       : 'tag-v';
-    const unavailClass = avail ? '' : ' unavail';
-    const dotClass = avail ? 'ok' : 'no';
-    const sizeLabel = f.size ? f.size : (avail ? '—' : 'N/A');
-    const safeLbl = (f.label||'').replace(/'/g,"\\'");
-    return `<a href="#" class="fmt-btn${unavailClass}" onclick="handleDownload(event,'${encodeURIComponent(url)}','${f.id}','${f.type}','${f.ext||'mp4'}','${safeLbl}')">
-      <div class="fmt-top">
-        <div class="fmt-type">${f.icon||'📥'} ${f.quality||f.label}</div>
-        <span class="avail-dot ${dotClass}" title="${avail?'Available':'May not be available'}"></span>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:5px">
-        <span class="fmt-tag ${tagClass}">${f.tag||f.type.toUpperCase()}</span>
-        <span class="fmt-size">${sizeLabel}</span>
-      </div>
-      <div class="fmt-ext">${f.ext||'mp4'} · ${isAudio?'audio':'video'}</div>
-    </a>`;
+    const safeLbl  = (f.label||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const safeUrl  = encodeURIComponent(url);
+    const safeId   = f.id || 'best';
+    const safeExt  = (f.ext||'mp4').replace(/[^a-z0-9]/gi,'');
+    const safeType = (f.type||'video').replace(/[^a-z]/gi,'');
+    return '<a href="#" class="fmt-btn' + (avail?'':' unavail') + '" ' +
+      'onclick="handleDownload(event,\'' + safeUrl + '\',\'' + safeId + '\',\'' + safeType + '\',\'' + safeExt + '\',\'' + safeLbl + '\')">' +
+      '<div class="fmt-top">' +
+        '<div class="fmt-type">' + (f.icon||'📥') + ' ' + (f.quality||f.label) + '</div>' +
+        '<span class="avail-dot ' + (avail?'ok':'no') + '"></span>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:5px">' +
+        '<span class="fmt-tag ' + tagClass + '">' + (f.tag||f.type.toUpperCase()) + '</span>' +
+        '<span class="fmt-size">' + (f.size||'—') + '</span>' +
+      '</div>' +
+      '<div class="fmt-ext">' + safeExt + ' · ' + (isAudio?'audio':'video') + '</div>' +
+    '</a>';
   }).join('');
 }
 
-// ── HANDLE DOWNLOAD ───────────────────────────
+// ── HANDLE DOWNLOAD ──────────────────────────────
 async function handleDownload(e, encodedUrl, formatId, type, ext, label) {
   e.preventDefault();
   const url = decodeURIComponent(encodedUrl);
   const btn = e.currentTarget;
-  const origHTML = btn.innerHTML;
 
-  btn.classList.add('loading');
-  btn.style.opacity = '0.7';
+  btn.style.opacity = '0.6';
+  btn.style.pointerEvents = 'none';
   showToast('⏳ Getting download link...');
+  console.log('[PS] Download request:', { formatId, type, ext, url: url.slice(0,60) });
 
   try {
     const res = await fetch('/api/download', {
@@ -954,77 +1022,69 @@ async function handleDownload(e, encodedUrl, formatId, type, ext, label) {
       body: JSON.stringify({ url, formatId, type, ext })
     });
 
-    const data = await res.json();
+    console.log('[PS] Download response status:', res.status);
+    let data;
+    try { data = await res.json(); }
+    catch { showToast('❌ Server error. Try again.'); btn.style.opacity=''; btn.style.pointerEvents=''; return; }
+
+    console.log('[PS] Download data:', data);
 
     if (!res.ok || !data.success) {
-      btn.classList.remove('loading');
-      btn.style.opacity = '';
-      showToast('❌ ' + (data.error || 'Could not get download link. Try another format.'));
+      showToast('❌ ' + (data.error || 'Could not get link. Try another format.'));
+      btn.style.opacity=''; btn.style.pointerEvents='';
       return;
     }
 
-    const title = (document.getElementById('resTitle').textContent || 'ps-download').slice(0, 60).replace(/[^\w\s.-]/g, '_');
     const dlUrl = data.downloadUrl;
+    const title = ((document.getElementById('resTitle') || {}).textContent || 'ps-download')
+      .slice(0, 60).replace(/[^a-zA-Z0-9_\-. ]/g, '_').trim();
 
-    // Method 1: direct anchor click (works for most cases)
-    try {
-      const a = document.createElement('a');
-      a.href = dlUrl;
-      a.download = title + '.' + ext;
-      a.target = '_blank';
-      a.rel = 'noopener';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      showToast('✅ Download started! Check your downloads folder.');
-    } catch {
-      // Method 2: open in new tab
-      window.open(dlUrl, '_blank', 'noopener');
-      showToast('✅ Opened in new tab — right-click and Save As to download.');
-    }
+    console.log('[PS] Opening URL:', dlUrl.slice(0, 80));
 
-    // Track session count
+    // Open download
+    const a = document.createElement('a');
+    a.href = dlUrl;
+    a.setAttribute('download', title + '.' + ext);
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => document.body.removeChild(a), 1000);
+
+    showToast('✅ Download started! Save the file when prompted.');
     sessCount++;
-    document.getElementById('sessCount').textContent = sessCount;
+    const sc = document.getElementById('sessCount');
+    if (sc) sc.textContent = sessCount;
 
   } catch (err) {
-    showToast('❌ Network error. Check connection and try again.');
-    console.error('[handleDownload]', err);
+    console.error('[PS] Download error:', err);
+    showToast('❌ Network error: ' + err.message);
   }
 
-  btn.classList.remove('loading');
   btn.style.opacity = '';
+  btn.style.pointerEvents = '';
 }
 
-// ── FAQ ──────────────────────────────────────
+// ── FAQ ──────────────────────────────────────────
 document.querySelectorAll('.faq-item').forEach(item => {
-  item.querySelector('.faq-q').addEventListener('click', () => {
+  const q = item.querySelector('.faq-q');
+  if (!q) return;
+  q.addEventListener('click', () => {
     const open = item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
     if (!open) item.classList.add('open');
   });
 });
 
-// ── TOAST ────────────────────────────────────
-let toastT;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastT);
-  toastT = setTimeout(() => t.classList.remove('show'), 3500);
+// ── ENTER KEY ────────────────────────────────────
+const urlInputEl = document.getElementById('urlInput');
+if (urlInputEl) {
+  urlInputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter') startFetch();
+  });
 }
 
-function showError(msg) {
-  const e = document.getElementById('errMsg');
-  e.textContent = '⚠️ ' + msg;
-  e.classList.add('show');
-}
-
-// ── ENTER KEY ────────────────────────────────
-document.getElementById('urlInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') startFetch();
-});
+console.log('[PS] PS Downloader frontend loaded ✓');
 </script>
 </body>
 </html>
