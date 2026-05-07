@@ -624,7 +624,7 @@ footer{background:#040404;border-top:1px solid rgba(255,0,0,.09);padding:44px 24
 //  PS DOWNLOADER — Frontend JavaScript
 // ═══════════════════════════════════════════
 
-const API = ''; // same origin — backend serves this file
+// API uses relative paths — same origin as backend
 
 // ── PARTICLES ──────────────────────────────
 const cvs = document.getElementById('pc');
@@ -758,11 +758,23 @@ document.addEventListener('click', e => {
 
 // ── PASTE ───────────────────────────────────
 async function pasteUrl() {
-  try {
-    const t = await navigator.clipboard.readText();
-    document.getElementById('urlInput').value = t;
-    showToast('📋 URL pasted!');
-  } catch { document.getElementById('urlInput').focus(); }
+  const input = document.getElementById('urlInput');
+  // Try clipboard API first
+  if (navigator.clipboard && navigator.clipboard.readText) {
+    try {
+      const t = await navigator.clipboard.readText();
+      if (t && t.trim()) {
+        input.value = t.trim();
+        showToast('📋 URL pasted!');
+        onUrlInput();
+        return;
+      }
+    } catch {}
+  }
+  // Fallback: focus and let user paste manually
+  input.focus();
+  input.select();
+  showToast('📋 Press Ctrl+V (or Cmd+V) to paste');
 }
 
 // ── SET URL FROM PLATFORM CARDS ─────────────
@@ -802,13 +814,22 @@ function endProgress() {
 // ── MAIN FETCH ───────────────────────────────
 let sessCount = 0;
 async function startFetch() {
-  const url = document.getElementById('urlInput').value.trim();
+  const input = document.getElementById('urlInput');
+  let url = input.value.trim();
   const btn = document.getElementById('dlBtn');
 
+  // Auto-add https:// if missing
+  if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+    url = 'https://' + url;
+    input.value = url;
+  }
+
   if (!url || !url.startsWith('http')) {
+    document.getElementById('errMsg').textContent = '⚠️ Please paste a valid video link (e.g. https://youtube.com/watch?v=...)';
     document.getElementById('errMsg').classList.add('show');
     document.getElementById('urlForm').style.boxShadow = '0 0 28px rgba(255,0,0,.5)';
     setTimeout(() => document.getElementById('urlForm').style.boxShadow='', 1400);
+    input.focus();
     return;
   }
 
@@ -817,11 +838,12 @@ async function startFetch() {
   document.getElementById('results').classList.remove('on');
   document.getElementById('spinWrap').classList.add('on');
   btn.disabled = true;
+  btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M3.5 7l4 4 4-4M1 14h13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Processing...';
   startProgress();
   saveHist(url);
 
   try {
-    const res = await fetch(`${API}/api/info`, {
+    const res = await fetch('/api/info', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url })
@@ -832,26 +854,28 @@ async function startFetch() {
     document.getElementById('spinWrap').classList.remove('on');
 
     if (!res.ok || !data.success) {
-      showError(data.error || 'Failed to fetch media info.');
+      showError(data.error || 'Could not fetch media. Check the URL and try again.');
       btn.disabled = false;
+      btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M3.5 7l4 4 4-4M1 14h13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Download';
       return;
     }
 
     renderResults(url, data);
     sessCount++;
     document.getElementById('sessCount').textContent = sessCount;
-    showToast(`✅ Found ${data.media.formats.length} formats!`);
+    showToast('✅ Found ' + data.media.formats.length + ' formats!');
     document.getElementById('results').classList.add('on');
-    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 
   } catch (err) {
     endProgress();
     document.getElementById('spinWrap').classList.remove('on');
-    showError('Network error. Check your connection and try again.');
-    console.error(err);
+    showError('Connection error. Make sure the server is running.');
+    console.error('[startFetch]', err);
   }
 
   btn.disabled = false;
+  btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M3.5 7l4 4 4-4M1 14h13" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Download';
 }
 
 // ── RENDER RESULTS ───────────────────────────
@@ -865,11 +889,22 @@ function renderResults(url, data) {
   document.getElementById('resViews').textContent = media.viewCount ? `👁 ${media.viewCount}` : '';
 
   // Thumbnail
+  const img = document.getElementById('thumb');
+  const ph  = document.getElementById('thumbPh');
   if (media.thumbnail) {
-    const img = document.getElementById('thumb');
+    img.style.display = 'none';
+    ph.style.display  = 'flex';
+    img.onload  = () => { img.style.display='block'; ph.style.display='none'; };
+    img.onerror = () => {
+      if (media.thumbnailFallback && img.src !== media.thumbnailFallback) {
+        img.src = media.thumbnailFallback;
+      } else {
+        img.style.display='none'; ph.style.display='flex';
+      }
+    };
     img.src = media.thumbnail;
-    img.onload = () => { img.style.display='block'; document.getElementById('thumbPh').style.display='none'; };
-    img.onerror = () => { img.style.display='none'; document.getElementById('thumbPh').style.display='flex'; };
+  } else {
+    img.style.display='none'; ph.style.display='flex';
   }
 
   // Format buttons
@@ -906,45 +941,59 @@ async function handleDownload(e, encodedUrl, formatId, type, ext, label) {
   e.preventDefault();
   const url = decodeURIComponent(encodedUrl);
   const btn = e.currentTarget;
+  const origHTML = btn.innerHTML;
 
   btn.classList.add('loading');
-  showToast(`⏳ Fetching ${label} download link…`);
+  btn.style.opacity = '0.7';
+  showToast('⏳ Getting download link...');
 
   try {
-    const res = await fetch(`${API}/api/download`, {
+    const res = await fetch('/api/download', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url, formatId, type, ext })
     });
 
     const data = await res.json();
-    btn.classList.remove('loading');
 
     if (!res.ok || !data.success) {
-      showToast(`❌ ${data.error || 'Download failed'}`);
+      btn.classList.remove('loading');
+      btn.style.opacity = '';
+      showToast('❌ ' + (data.error || 'Could not get download link. Try another format.'));
       return;
     }
 
-    // Build proxy URL for forced download
-    const filename = document.getElementById('resTitle').textContent.slice(0,60) || 'ps-download';
-    const proxyUrl = `${API}/api/proxy-download?url=${encodeURIComponent(data.downloadUrl)}&filename=${encodeURIComponent(filename)}&ext=${ext}`;
+    const title = (document.getElementById('resTitle').textContent || 'ps-download').slice(0, 60).replace(/[^\w\s.-]/g, '_');
+    const dlUrl = data.downloadUrl;
 
-    // Try opening direct URL first, fallback to proxy
-    const a = document.createElement('a');
-    a.href = proxyUrl;
-    a.download = `${filename}.${ext}`;
-    a.target = '_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    // Method 1: direct anchor click (works for most cases)
+    try {
+      const a = document.createElement('a');
+      a.href = dlUrl;
+      a.download = title + '.' + ext;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('✅ Download started! Check your downloads folder.');
+    } catch {
+      // Method 2: open in new tab
+      window.open(dlUrl, '_blank', 'noopener');
+      showToast('✅ Opened in new tab — right-click and Save As to download.');
+    }
 
-    showToast(`✅ Download started — ${label}`);
+    // Track session count
+    sessCount++;
+    document.getElementById('sessCount').textContent = sessCount;
 
   } catch (err) {
-    btn.classList.remove('loading');
-    showToast(`❌ Network error. Try again.`);
-    console.error(err);
+    showToast('❌ Network error. Check connection and try again.');
+    console.error('[handleDownload]', err);
   }
+
+  btn.classList.remove('loading');
+  btn.style.opacity = '';
 }
 
 // ── FAQ ──────────────────────────────────────
