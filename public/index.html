@@ -402,19 +402,30 @@ ui.addEventListener('paste',function(){setTimeout(clerr,50);});
 ui.addEventListener('keydown',function(e){if(e.key==='Enter')go();});
 
 // ── Paste button ──────────────────────────────────────────────────────────────
-document.getElementById('pb').addEventListener('click',async function(){
-  var inp=document.getElementById('ui');
-  // Try Clipboard API
-  if(navigator.clipboard&&navigator.clipboard.readText){
-    try{
-      var t=await navigator.clipboard.readText();
-      if(t&&t.trim()){inp.value=t.trim();clerr();toast('📋 Pasted!');return;}
-    }catch(e){console.log('Clipboard blocked:',e.message);}
+document.getElementById('pb').addEventListener('click', async function(){
+  var inp = document.getElementById('ui');
+  // Method 1: Clipboard API (works on HTTPS)
+  if (navigator.clipboard && navigator.clipboard.readText) {
+    try {
+      var t = await navigator.clipboard.readText();
+      if (t && t.trim()) {
+        inp.value = t.trim();
+        clerr();
+        inp.dispatchEvent(new Event('input'));
+        toast('📋 Pasted!');
+        return;
+      }
+    } catch(e) {}
   }
-  // Fallback: focus the input, user pastes manually
+  // Method 2: execCommand paste (older browsers)
   inp.focus();
   inp.select();
-  toast('📋 Click the input box and press Ctrl+V to paste');
+  var ok = document.execCommand('paste');
+  if (!ok) {
+    // Method 3: Show helper
+    toast('📋 Tap the input box and press Ctrl+V (PC) or long-press (mobile) to paste');
+    inp.focus();
+  }
 });
 
 // ── Download button ───────────────────────────────────────────────────────────
@@ -523,16 +534,21 @@ async function dl(e,eu,efa,ext){
     if(!r.ok||!d.success){toast('❌ '+(d.error||'Could not get link. Try another format.'));btn.classList.remove('busy');return;}
 
     var dlUrl=d.url;
-    var title=(document.getElementById('rtl').textContent||'ps-download').slice(0,60).replace(/[^a-zA-Z0-9 _\-\.]/g,'_');
-    var a=document.createElement('a');
-    a.href=dlUrl;
-    a.download=title+'.'+ext;
-    a.target='_blank';
-    a.rel='noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function(){document.body.removeChild(a);},800);
-    toast('✅ Download started! Check your downloads folder.');
+    var title=(document.getElementById('rtl').textContent||'ps-download').slice(0,60).replace(/[^a-zA-Z0-9 _\-\.]/g,'_').trim()||'ps-download';
+
+    // Method 1: anchor with download attribute
+    try{
+      var a=document.createElement('a');
+      a.href=dlUrl; a.download=title+'.'+ext; a.target='_blank'; a.rel='noopener noreferrer';
+      document.body.appendChild(a); a.click();
+      setTimeout(function(){try{document.body.removeChild(a);}catch(x){}},1000);
+      toast('✅ Download started! Check your downloads folder.');
+    }catch(x){
+      // Method 2: open in new tab
+      window.open(dlUrl,'_blank');
+      toast('✅ Opened! Right-click the video and choose Save As.');
+    }
+
     sess++;document.getElementById('sc').textContent=sess;
   }catch(er){
     toast('❌ Error: '+er.message);
