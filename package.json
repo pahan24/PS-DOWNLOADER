@@ -1,16 +1,17 @@
 {
   "name": "ps-downloader",
   "version": "1.0.0",
-  "engines": { "node": "20.x" },
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
-    "start": "node app.js",
-    "postinstall": "node setup.js"
+    "start": "node app.js"
   },
   "dependencies": {
-    "express": "4.18.2",
-    "cors": "2.8.5",
-    "helmet": "7.1.0",
-    "express-rate-limit": "7.1.5",
-    "node-fetch": "3.3.2"
+    "express": "*",
+    "cors": "*",
+    "helmet": "*",
+    "express-rate-limit": "*",
+    "node-fetch": "*"
   }
 }
